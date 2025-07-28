@@ -1,6 +1,10 @@
 # FPS cap unlocker for Wuthering Waves on MacOS
 Wuthering Waves officially only supports 120 FPS on M3 Pro/Max/Ultra, M4/M4 Pro/Max and only supports up to 60 FPS for M1/M2 series.
-This application allows you to increase the game's FPS cap to 120 from 60 for M1/M2 series Macs 
+This application allows you to increase the game's FPS cap to 120 from 60 for M1/M2 series Macs.
+
+It works by altering the LocalStorage game configuration file to set the appropriate key value pairs to a value that will force 120 FPS as the frame cap
+
+
 
 ## Instructions
 - Grab the latest copy from [Releases](https://github.com/Peekaey/MacOs-WuWa-fps-unlocker/releases/tag/Release)
@@ -8,7 +12,8 @@ This application allows you to increase the game's FPS cap to 120 from 60 for M1
   ![FPSCounter](https://github.com/Peekaey/MacOs-WuWa-fps-unlocker/blob/main/Images/preview.png)
 
 ## Screenshots
-
+![Menu](https://github.com/Peekaey/MacOs-WuWa-fps-unlocker/blob/main/Images/Menu.png)
+![Success](https://github.com/Peekaey/MacOs-WuWa-fps-unlocker/blob/main/Images/Success.png)
 
 
 
@@ -24,6 +29,7 @@ dx serve
 ```
 
 ### Notes
+Application may not work correctly immediately after a new release due to any changes to how refresh rate is set in game, in this case please open an issue to get this corrected
 
 
 ### Credits

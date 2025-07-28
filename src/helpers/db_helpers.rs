@@ -59,8 +59,8 @@ fn get_insert_playmenuinfo_query() -> String {
     return query;
 }
 
-pub fn execute_update_max_refreshrate(file_path: &String) -> Result<(), String> {
-    // Open a connection to the LocalStorage sqlite database
+pub fn execute_update_max_refreshrate(file_path: &String) -> Result<(), rusqlite::Error> {
+
     let connection = Connection::open(file_path);
 
     return match connection {
@@ -69,46 +69,42 @@ pub fn execute_update_max_refreshrate(file_path: &String) -> Result<(), String> 
             // Delete existing update trigger before creating new one
             let delete_trigger_query = get_delete_customframerate_trigger_query();
             if let Err(e) = conn.execute(&delete_trigger_query, []) {
-                eprintln!("Error deleting existing trigger: {}", e);
-                return Err(format!("Error deleting existing trigger: {}", e));
+                return Err(e);
             }
 
             // Execute the trigger creation query
             let create_trigger_query = get_insert_customframerate_trigger_query();
             if let Err(e) = conn.execute(&create_trigger_query, []) {
-                eprintln!("Error creating trigger: {}", e);
-                return Err(format!("Error creating trigger: {}", e));
+                return Err(e);
             }
 
             // Execute the update query to set CustomFrameRate to 120 FPS
             let update_query = get_update_customframerate_query();
             if let Err(e) = conn.execute(&update_query, []) {
-                eprintln!("Error updating CustomFrameRate: {}", e);
+                return Err(e);
             }
 
-            // Execute the delete dependency keypair query
+            // Execute the delete MenuData and PlayMenuInfo key pair query
             let delete_dependency_query = get_delete_dependency_keypair_query();
             if let Err(e) = conn.execute(&delete_dependency_query, []) {
-                eprintln!("Error deleting PlayMenuInfo & MenuData keypair: {}", e);
+                return Err(e);
             }
             // Insert MenuData 
             let insert_menudata_query = get_insert_menudata_quer();
             if let Err(e) = conn.execute(&insert_menudata_query, []) {
-                eprintln!("Error inserting MenuData: {}", e);
-                return Err(format!("Error inserting MenuData: {}", e));
+                return Err(e);
             }
             // Insert PlayMenuInfo
             let insert_playmenuinfo_query = get_insert_playmenuinfo_query();
             if let Err(e) = conn.execute(&insert_playmenuinfo_query, []) {
-                eprintln!("Error inserting PlayMenuInfo: {}", e);
-                return Err(format!("Error inserting PlayMenuInfo: {}", e));
+                return Err(e);
             }
 
             Ok(())
         },
         Err(error) => {
             eprintln!("Failed to open database connection: {}", error);
-            Err(format!("Failed to open database connection: {}", error))
+            Err(error)
         }
     }
 }

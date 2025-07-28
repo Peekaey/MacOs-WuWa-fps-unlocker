@@ -1,6 +1,5 @@
 use dioxus::desktop::{Config, LogicalSize, WindowBuilder};
-// The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you
-// need dioxus
+// The dioxus prelude contains a ton of common items used in dioxus apps. It's a good idea to import wherever you need dioxus
 use dioxus::prelude::*;
 use dioxus_desktop::tao::window::Icon;
 
@@ -12,17 +11,10 @@ mod helpers;
 
 // We can import assets in dioxus with the `asset!` macro. This macro takes a path to an asset relative to the crate root.
 // The macro returns an `Asset` type that will display as the path to the asset in the browser or a local path in desktop bundles.
-const FAVICON: Asset = asset!("/assets/favicon.ico");
+
 // The asset macro also minifies some assets like CSS and JS to make bundled smaller
-const MAIN_CSS: Asset = asset!("/assets/styling/main.css");
+const MAIN_CSS: Asset = asset!("/assets/main.css");
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
-
-// fn main() {
-//     // The `launch` function is the main entry point for a dioxus app. It takes a component and renders it with the platform feature
-//     // you have enabled
-//     dioxus::launch(App);
-// }
-
 
 fn main() {
     let icon = load_app_icon().expect("Failed to load application icon");
@@ -32,9 +24,9 @@ fn main() {
             Config::new()
                 .with_window(
                     WindowBuilder::new()
-                        .with_title("Wuthering Waves FPS Unlocker For Mac")
+                        .with_title("Wuthering Waves FPS Unlocker")
                         .with_window_icon(Some(icon))
-                        .with_inner_size(LogicalSize::new(600, 400))
+                        .with_inner_size(LogicalSize::new(700, 400))
                         .with_resizable(true)
                         .with_maximized(false)
                     
@@ -42,6 +34,7 @@ fn main() {
         )
         .launch(App);
 }
+
 
 fn load_app_icon() -> Result<Icon, Box<dyn std::error::Error>> {
     let icon_data = include_bytes!("../assets/wuwa-icon.png");
@@ -53,9 +46,7 @@ fn load_app_icon() -> Result<Icon, Box<dyn std::error::Error>> {
 
     let (width, height) = img.dimensions();
     let rgba_data = img.into_raw();
-
-    println!("Icon dimensions: {}x{}, RGBA data length: {}", width, height, rgba_data.len());
-
+    
     Ok(Icon::from_rgba(rgba_data, width, height)?)
 }
 
@@ -70,10 +61,11 @@ fn App() -> Element {
     rsx! {
         // In addition to element and text (which we will see later), rsx can contain other components. In this case,
         // we are using the `document::Link` component to add a link to our favicon and main CSS file into the head of our app.
-        document::Link { rel: "icon", href: FAVICON }
         document::Link { rel: "stylesheet", href: MAIN_CSS }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
-
+        // Fix CSS not loading for desktop
+        // https://github.com/DioxusLabs/dioxus/issues/2345#issuecomment-2097585155
+        style {{include_str!("../assets/main.css")}}
         Menu {}
 
     }

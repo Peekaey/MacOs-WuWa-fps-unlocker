@@ -1,9 +1,9 @@
 [application]
 
-[web.app]
+default_platform = "desktop"
 
 # HTML title tag content
-title = "Wuthering Waves FPS Unlocker For Mac"
+title = "Wuthering Waves FPS Unlocker"
 
 # include `assets` in web platform
 [web.resource]
@@ -20,6 +20,8 @@ script = []
 # serve: [dev-server] only
 script = []
 
-# Icon
+
 [bundle]
+identifier = "com.peekaey"
+publisher = "Peekaey"
 icon = ["assets/wuwa-icon.png"]

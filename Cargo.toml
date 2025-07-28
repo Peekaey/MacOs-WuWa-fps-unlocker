@@ -12,6 +12,7 @@ dioxus-desktop = { version = "0.7.0-alpha.3", features = [] }
 rusqlite = { version = "0.32.1", features = ["bundled"] }
 serde = { version = "1.0", features = ["derive"] }
 image = { version = "0.25.6"}
+sysinfo = { version ="0.36.1"}
 
 [features]
 default = ["desktop"]
